@@ -1,0 +1,148 @@
+I want you to act as a senior full-stack engineer and build a complete, production-ready MVP web application called:
+
+“Smart Mbarara – Civic Issue Reporting System”
+
+This is a multi-sector civic platform that allows citizens to report city issues and enables authorities to track and resolve them.
+
+PROJECT OVERVIEW
+
+The system should allow users to report issues in different sectors such as:
+- Waste Management
+- Health
+- Education
+- Security
+- Water Supply
+- Electricity
+- Roads & Transport
+- Other
+
+The system must be simple, clean, and fully functional.
+
+TECH STACK REQUIREMENTS
+
+- Backend: Python (Flask)
+- Frontend: HTML, CSS (Bootstrap), JavaScript
+- Database: SQLite (for MVP)
+- Image Upload: Store locally
+- Must run smoothly on Replit
+
+DATABASE DESIGN
+
+Create a table called civic_reports with the following fields:
+
+- id (Primary Key)
+- name (optional)
+- phone (required)
+- category (required)
+- description (required)
+- image_path
+- location (text)
+- status (default: "Pending")
+- department (auto-assigned based on category)
+- created_at (timestamp)
+
+CORE FUNCTIONALITIES
+
+1. Citizen Report Submission
+
+Create a homepage with a form that includes:
+- Name (optional)
+- Phone number (required)
+- Category (dropdown with all sectors listed)
+- Description (textarea)
+- Image upload
+- Location (text input)
+
+On submission:
+- Save data to database
+- Automatically assign department based on category
+- Set status = "Pending"
+- Show success message
+
+2. Department Mapping Logic
+
+- Waste → City Council
+- Health → Health Department
+- Education → Education Office
+- Security → Police
+- Water → NWSC
+- Electricity → UMEME
+- Roads → Works Department
+- Other → General Authority
+
+3. Admin Dashboard (No Authentication for MVP)
+
+Create route: /admin
+
+Features:
+- Display all reports in a table
+- Show category, description, image, location, status, department, date
+- Filter by category
+- Filter by status
+
+4. Update Status
+
+Each report should have buttons:
+- Mark as "In Progress"
+- Mark as "Resolved"
+
+Update database accordingly.
+
+5. Public Transparency Page
+
+Create route: /reports
+
+- Show all reports publicly
+- Display category, description, status, location
+
+UI/UX REQUIREMENTS
+
+- Use Bootstrap
+- Mobile responsive
+- Simple navigation:
+  - Home
+  - View Reports
+  - Admin
+
+Use clear labels like:
+- “Report a City Issue”
+- “Track Community Issues”
+
+PROJECT STRUCTURE
+
+/app.py
+/templates
+    index.html
+    admin.html
+    reports.html
+/static
+    /uploads
+/database.db
+
+VALIDATION RULES
+
+- Phone is required
+- Category must be selected
+- Description cannot be empty
+
+BONUS FEATURES
+
+- Display uploaded images in dashboard
+- Add readable timestamps
+- Add basic search
+
+FINAL EXPECTATION
+
+The system must:
+- Run without errors
+- Allow real submissions
+- Store and display data correctly
+- Allow status updates
+- Be clean and presentable for demo
+
+Generate all necessary files:
+- Flask backend (app.py)
+- HTML templates
+- Basic CSS if needed
+
+Ensure the code is complete and runnable immediately.
