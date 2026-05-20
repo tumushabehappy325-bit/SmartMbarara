@@ -73,7 +73,8 @@ router.post("/reports", async (req, res) => {
 });
 
 router.get("/reports/:id", async (req, res) => {
-  const parsed = GetReportParams.safeParse({ id: Number(req.params.id) });
+  const idStr = String(req.params.id);
+  const parsed = GetReportParams.safeParse({ id: Number(idStr) });
   if (!parsed.success) {
     res.status(400).json({ error: "Invalid id" });
     return;
@@ -91,7 +92,8 @@ router.get("/reports/:id", async (req, res) => {
 });
 
 router.patch("/reports/:id", async (req, res) => {
-  const paramsParsed = UpdateReportParams.safeParse({ id: Number(req.params.id) });
+  const idStr = String(req.params.id);
+  const paramsParsed = UpdateReportParams.safeParse({ id: Number(idStr) });
   if (!paramsParsed.success) {
     res.status(400).json({ error: "Invalid id" });
     return;
@@ -120,7 +122,8 @@ router.patch("/reports/:id", async (req, res) => {
 });
 
 router.patch("/reports/:id/status", async (req, res) => {
-  const paramsParsed = UpdateReportStatusParams.safeParse({ id: Number(req.params.id) });
+  const idStr = String(req.params.id);
+  const paramsParsed = UpdateReportStatusParams.safeParse({ id: Number(idStr) });
   if (!paramsParsed.success) {
     res.status(400).json({ error: "Invalid id" });
     return;
