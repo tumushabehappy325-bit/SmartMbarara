@@ -1,4 +1,4 @@
-import { getReport, updateReport } from "../_reports";
+import { getReport, updateReport } from "../_reports.js";
 import {
   allowMethods,
   type ApiRequest,
@@ -6,7 +6,7 @@ import {
   getQueryValue,
   parseBody,
   sendError,
-} from "../_http";
+} from "../_http.js";
 
 export default async function handler(req: ApiRequest, res: ApiResponse) {
   if (allowMethods(req, res, ["GET", "PATCH", "OPTIONS"])) return;
