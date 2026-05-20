@@ -1,22 +1,70 @@
-import { updateReportStatus } from "../../_reports.js";
+import { db, reportsTable } from "@workspace/db";
 import {
-  allowMethods,
-  type ApiRequest,
-  type ApiResponse,
-  getQueryValue,
-  parseBody,
-  sendError,
-} from "../../_http.js";
+  UpdateReportStatusBody,
+  UpdateReportStatusParams,
+} from "@workspace/api-zod";
+import { eq } from "drizzle-orm";
+
+type ApiRequest = {
+  method?: string;
+  query: Record<string, string | string[] | undefined>;
+  body?: unknown;
+};
+
+type ApiResponse = {
+  status: (statusCode: number) => ApiResponse;
+  json: (body: unknown) => void;
+  setHeader: (name: string, value: string | string[]) => void;
+  end: () => void;
+};
+
+function getQueryValue(value: string | string[] | undefined) {
+  return Array.isArray(value) ? value[0] : value;
+}
+
+function parseBody(body: unknown) {
+  if (typeof body !== "string") return body;
+  if (!body.trim()) return {};
+  return JSON.parse(body);
+}
 
 export default async function handler(req: ApiRequest, res: ApiResponse) {
-  if (allowMethods(req, res, ["PATCH", "OPTIONS"])) return;
+  res.setHeader("Allow", ["PATCH", "OPTIONS"]);
+
+  if (req.method === "OPTIONS") {
+    return res.status(204).end();
+  }
+
+  if (req.method !== "PATCH") {
+    return res.status(405).json({ error: "Method not allowed" });
+  }
 
   const id = Number(getQueryValue(req.query.id));
 
   try {
-    const result = await updateReportStatus(id, parseBody(req.body));
-    res.status(result.status).json(result.body);
+    const paramsParsed = UpdateReportStatusParams.safeParse({ id });
+    if (!paramsParsed.success) {
+      return res.status(400).json({ error: "Invalid id" });
+    }
+
+    const bodyParsed = UpdateReportStatusBody.safeParse(parseBody(req.body));
+    if (!bodyParsed.success) {
+      return res.status(400).json({ error: "Validation failed" });
+    }
+
+    const [report] = await db
+      .update(reportsTable)
+      .set({ status: bodyParsed.data.status })
+      .where(eq(reportsTable.id, paramsParsed.data.id))
+      .returning();
+
+    if (!report) {
+      return res.status(404).json({ error: "Report not found" });
+    }
+
+    return res.status(200).json(report);
   } catch (error) {
-    sendError(res, error);
+    console.error(error);
+    return res.status(500).json({ error: "Internal server error" });
   }
 }
