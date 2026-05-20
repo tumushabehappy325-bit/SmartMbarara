@@ -6,7 +6,8 @@ import {
 
 type ApiRequest = {
   method?: string;
-  query: Record<string, string | string[] | undefined>;
+  query?: Record<string, string | string[] | undefined>;
+  params?: { id?: string };
   body?: unknown;
 };
 
@@ -38,10 +39,15 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
     return res.status(405).json({ error: "Method not allowed" });
   }
 
-  const id = Number(getQueryValue(req.query.id));
+  const idStr = req.params?.id ?? getQueryValue(req.query?.id);
+  const reportId = Number(idStr);
+
+  if (Number.isNaN(reportId)) {
+    return res.status(400).json({ error: "Invalid id" });
+  }
 
   try {
-    const paramsParsed = UpdateReportStatusParams.safeParse({ id });
+    const paramsParsed = UpdateReportStatusParams.safeParse({ id: reportId });
     if (!paramsParsed.success) {
       return res.status(400).json({ error: "Invalid id" });
     }
@@ -50,6 +56,10 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
     if (!bodyParsed.success) {
       return res.status(400).json({ error: "Validation failed" });
     }
+
+    const _db = db as unknown as any;
+    const reportsTable = _db.reportsTable;
+    const eq = _db.eq;
 
     const _db = db as unknown as any;
     const reportsTable = _db.reportsTable;
