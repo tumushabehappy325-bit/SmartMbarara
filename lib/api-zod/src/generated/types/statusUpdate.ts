@@ -5,7 +5,7 @@
  * Smart Mbarara – Civic Issue Reporting System API
  * OpenAPI spec version: 0.1.0
  */
-import type { StatusUpdateStatus } from './statusUpdateStatus';
+import type { StatusUpdateStatus } from './statusUpdateStatus.js';
 
 export interface StatusUpdate {
   status: StatusUpdateStatus;

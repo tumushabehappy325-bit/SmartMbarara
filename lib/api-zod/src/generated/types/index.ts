@@ -6,17 +6,17 @@
  * OpenAPI spec version: 0.1.0
  */
 
-export * from './categoryCount';
-export * from './errorResponse';
-export * from './healthStatus';
-export * from './listReportsParams';
-export * from './report';
-export * from './reportInput';
-export * from './reportInputCategory';
-export * from './reportStatus';
-export * from './reportUpdate';
-export * from './reportUpdateStatus';
-export * from './statsSummary';
-export * from './statusCount';
-export * from './statusUpdate';
-export * from './statusUpdateStatus';
+export * from './categoryCount.js';
+export * from './errorResponse.js';
+export * from './healthStatus.js';
+export * from './listReportsParams.js';
+export * from './report.js';
+export * from './reportInput.js';
+export * from './reportInputCategory.js';
+export * from './reportStatus.js';
+export * from './reportUpdate.js';
+export * from './reportUpdateStatus.js';
+export * from './statsSummary.js';
+export * from './statusCount.js';
+export * from './statusUpdate.js';
+export * from './statusUpdateStatus.js';

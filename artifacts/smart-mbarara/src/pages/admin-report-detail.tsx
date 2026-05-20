@@ -20,6 +20,7 @@ export default function AdminReportDetail() {
 
   const { data: report, isLoading } = useGetReport(id, {
     query: {
+      queryKey: getGetReportQueryKey(id),
       enabled: !isNaN(id) && id > 0,
     }
   });

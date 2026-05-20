@@ -1,16 +1,24 @@
 import { drizzle } from "drizzle-orm/node-postgres";
 import pg from "pg";
-import * as schema from "./schema";
+import * as schema from "./schema/index.js";
 
 const { Pool } = pg;
 
-if (!process.env.DATABASE_URL) {
-  throw new Error(
-    "DATABASE_URL must be set. Did you forget to provision a database?",
-  );
-}
+type DbGlobal = typeof globalThis & {
+  __smartMbararaPool?: pg.Pool;
+  __smartMbararaDb?: ReturnType<typeof drizzle<typeof schema>>;
+};
 
-export const pool = new Pool({ connectionString: process.env.DATABASE_URL });
-export const db = drizzle(pool, { schema });
+const globalForDb = globalThis as DbGlobal;
 
-export * from "./schema";
+export const pool =
+  globalForDb.__smartMbararaPool ??
+  new Pool({ connectionString: process.env.DATABASE_URL });
+
+export const db =
+  globalForDb.__smartMbararaDb ?? drizzle(pool, { schema });
+
+globalForDb.__smartMbararaPool = pool;
+globalForDb.__smartMbararaDb = db;
+
+export * from "./schema/index.js";
