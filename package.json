@@ -10,15 +10,10 @@
   },
   "private": true,
   "dependencies": {
-    "drizzle-orm": "catalog:"
+    "drizzle-orm": "0.45.2"
   },
   "overrides": {
     "drizzle-orm": "0.45.2"
-  },
-  "pnpm": {
-    "overrides": {
-      "drizzle-orm": "0.45.2"
-    }
   },
   "devDependencies": {
     "prettier": "^3.8.3",
