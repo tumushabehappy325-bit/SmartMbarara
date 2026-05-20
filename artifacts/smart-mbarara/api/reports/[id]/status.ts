@@ -1,4 +1,4 @@
-import { db, reportsTable, eq } from "@workspace/db";
+import { db } from "@workspace/db";
 import {
   UpdateReportStatusBody,
   UpdateReportStatusParams,
@@ -50,6 +50,10 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
     if (!bodyParsed.success) {
       return res.status(400).json({ error: "Validation failed" });
     }
+
+    const _db = db as unknown as any;
+    const reportsTable = _db.reportsTable;
+    const eq = _db.eq;
 
     const [report] = await db
       .update(reportsTable)
