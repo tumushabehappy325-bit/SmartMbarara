@@ -11,8 +11,7 @@
   },
   "dependencies": {
     "@workspace/api-zod": "workspace:*",
-    "@workspace/db": "workspace:*",
-    "drizzle-orm": "catalog:"
+    "@workspace/db": "workspace:"
   },
   "devDependencies": {
     "@hookform/resolvers": "^3.10.0",

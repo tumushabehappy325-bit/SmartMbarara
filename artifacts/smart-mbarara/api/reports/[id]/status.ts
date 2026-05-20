@@ -1,9 +1,8 @@
-import { db, reportsTable } from "@workspace/db";
+import { db, reportsTable, eq } from "@workspace/db";
 import {
   UpdateReportStatusBody,
   UpdateReportStatusParams,
 } from "@workspace/api-zod";
-import { eq } from "drizzle-orm";
 
 type ApiRequest = {
   method?: string;

@@ -22,3 +22,4 @@ globalForDb.__smartMbararaPool = pool;
 globalForDb.__smartMbararaDb = db;
 
 export * from "./schema/index.js";
+export { and, desc, eq, like, sql } from "drizzle-orm";

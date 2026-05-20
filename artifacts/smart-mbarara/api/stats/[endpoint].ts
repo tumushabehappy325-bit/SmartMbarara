@@ -1,5 +1,4 @@
-import { db, reportsTable } from "@workspace/db";
-import { desc, sql } from "drizzle-orm";
+import { db, reportsTable, desc, sql } from "@workspace/db";
 
 type ApiRequest = {
   method?: string;
