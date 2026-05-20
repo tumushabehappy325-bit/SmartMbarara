@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@workspace/api-zod": "workspace:*",
-    "@workspace/db": "workspace:"
+    "@workspace/db": "workspace:*"
   },
   "devDependencies": {
     "@hookform/resolvers": "^3.10.0",
