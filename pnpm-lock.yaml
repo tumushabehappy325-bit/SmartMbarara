@@ -68,7 +68,6 @@ catalogs:
       version: 3.25.76
 
 overrides:
-  drizzle-orm: 0.45.2
   esbuild>@esbuild/darwin-arm64: '-'
   esbuild>@esbuild/darwin-x64: '-'
   esbuild>@esbuild/freebsd-arm64: '-'
