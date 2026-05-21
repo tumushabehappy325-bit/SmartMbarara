@@ -16,6 +16,7 @@
     "drizzle-orm": "0.45.2"
   },
   "devDependencies": {
+    "@vercel/node": "^5.8.3",
     "prettier": "^3.8.3",
     "typescript": "~5.9.3"
   }

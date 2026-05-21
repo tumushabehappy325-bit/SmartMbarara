@@ -1,46 +1,22 @@
+import type { VercelRequest, VercelResponse } from "@vercel/node";
 import { db, reportsTable, eq } from "@workspace/db";
 import {
   UpdateReportStatusBody,
   UpdateReportStatusParams,
 } from "@workspace/api-zod";
+import { setCorsHeaders } from "../../_cors";
 
-type ApiRequest = {
-  method?: string;
-  query?: Record<string, string | string[] | undefined>;
-  params?: { id?: string };
-  body?: unknown;
-};
-
-type ApiResponse = {
-  status: (statusCode: number) => ApiResponse;
-  json: (body: unknown) => void;
-  setHeader: (name: string, value: string | string[]) => void;
-  end: () => void;
-};
-
-function getQueryValue(value: string | string[] | undefined) {
-  return Array.isArray(value) ? value[0] : value;
-}
-
-function parseBody(body: unknown) {
-  if (typeof body !== "string") return body;
-  if (!body.trim()) return {};
-  return JSON.parse(body);
-}
-
-export default async function handler(req: ApiRequest, res: ApiResponse) {
+export default async function handler(req: VercelRequest, res: VercelResponse) {
+  setCorsHeaders(res);
   res.setHeader("Allow", ["PATCH", "OPTIONS"]);
 
-  if (req.method === "OPTIONS") {
-    return res.status(204).end();
-  }
+  if (req.method === "OPTIONS") return res.status(204).end();
 
   if (req.method !== "PATCH") {
     return res.status(405).json({ error: "Method not allowed" });
   }
 
-  const idStr = req.params?.id ?? getQueryValue(req.query?.id);
-  const reportId = Number(idStr);
+  const reportId = Number(req.query.id);
 
   if (Number.isNaN(reportId)) {
     return res.status(400).json({ error: "Invalid id" });
@@ -52,7 +28,7 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
       return res.status(400).json({ error: "Invalid id" });
     }
 
-    const bodyParsed = UpdateReportStatusBody.safeParse(parseBody(req.body));
+    const bodyParsed = UpdateReportStatusBody.safeParse(req.body);
     if (!bodyParsed.success) {
       return res.status(400).json({ error: "Validation failed" });
     }
