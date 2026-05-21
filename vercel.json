@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "installCommand": "pnpm install",
+  "installCommand": "pnpm install --no-frozen-lockfile",
   "buildCommand": "pnpm --filter @workspace/smart-mbarara build",
   "outputDirectory": "artifacts/smart-mbarara/dist/public",
   "rewrites": [
