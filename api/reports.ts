@@ -1,7 +1,18 @@
-import type { VercelRequest, VercelResponse } from "@vercel/node";
 import { db, reportsTable, and, desc, eq, like } from "@workspace/db";
 import { CreateReportBody, ListReportsQueryParams } from "@workspace/api-zod";
 import { setCorsHeaders } from "./_cors";
+
+type Req = {
+  method?: string;
+  query: Record<string, string | string[] | undefined>;
+  body?: unknown;
+};
+type Res = {
+  status: (code: number) => Res;
+  json: (body: unknown) => void;
+  setHeader: (name: string, value: string | string[]) => void;
+  end: () => void;
+};
 
 const DEPARTMENT_MAP: Record<string, string> = {
   "Waste Management": "City Council",
@@ -14,7 +25,7 @@ const DEPARTMENT_MAP: Record<string, string> = {
   Other: "General Authority",
 };
 
-export default async function handler(req: VercelRequest, res: VercelResponse) {
+export default async function handler(req: Req, res: Res) {
   setCorsHeaders(res);
   res.setHeader("Allow", ["GET", "POST", "OPTIONS"]);
 
